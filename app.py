@@ -11,7 +11,7 @@ app = Flask(__name__)
 
 chat_history = []
 
-@app.route("/")
+@app.route("/chat", methods=["POST"])
 def home():
     return render_template("index.html")
 
