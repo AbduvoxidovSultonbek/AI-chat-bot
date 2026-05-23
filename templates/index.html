@@ -34,11 +34,12 @@ async function sendMessage() {
 
     // send to backend
     let res = await fetch("/chat", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({message: message})
-    });
-
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ message: message })
+});
     let data = await res.json();
 
     // show AI reply
