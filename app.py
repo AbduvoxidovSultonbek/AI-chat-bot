@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 from google import genai
+from flask import redirect, url_for
 from dotenv import load_dotenv
 import os
 
@@ -12,7 +13,6 @@ app = Flask(__name__)
 chat_history = []
 
 @app.route("/", methods=["GET", "POST"])
-
 def home():
     if request.method == "POST":
         user_message = request.form["message"]
@@ -25,6 +25,7 @@ def home():
         chat_history.append(("You", user_message))
         chat_history.append(("AI", response.text))
 
+        return redirect(url_for("home"))
 
     return render_template("index.html", chat_history=chat_history)
 
