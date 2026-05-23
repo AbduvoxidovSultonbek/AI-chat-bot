@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My AI Chatbot</title>
+</head>
+<body>
+
+<h1>Gemini AI Chatbot</h1>
+
+<form method="POST">
+    <input type="text" name="message" placeholder="Type here">
+    <button type="submit">Send</button>
+</form>
+
+<hr>
+
+{% for sender, message in chat_history %}
+    <p><b>{{ sender }}:</b> {{ message }}</p>
+{% endfor %}
+
+</body>
+</html>
