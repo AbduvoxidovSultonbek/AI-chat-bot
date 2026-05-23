@@ -1,6 +1,5 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from google import genai
-from flask import redirect, url_for
 from dotenv import load_dotenv
 import os
 
@@ -11,21 +10,26 @@ client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 app = Flask(__name__)
 
 chat_history = []
-@app.route("/", methods=["GET", "POST"])
+
+@app.route("/")
 def home():
-    if request.method == "POST":
-        user_message = request.form["message"]
+    return render_template("index.html")
 
-        response = client.models.generate_content(
-            model="gemini-2.5-flash",
-            contents=user_message
-        )
 
-        chat_history.append(("You", user_message))
-        chat_history.append(("AI", response.text))
+@app.route("/chat", methods=["POST"])
+def chat():
+    user_message = request.json["message"]
 
-    return render_template("index.html", chat_history=chat_history)
+    response = client.models.generate_content(
+        model="gemini-2.5-flash",
+        contents=user_message
+    )
+
+    return jsonify({
+        "reply": response.text
+    })
+
+
 if __name__ == "__main__":
-    import os
     port = int(os.getenv("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
