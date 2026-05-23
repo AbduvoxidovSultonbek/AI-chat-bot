@@ -1,6 +1,6 @@
 
 from google import genai
-client = genai.Client(api_key="AIzaSyDpP6nok-UeFyw-Li_hTtDIgJDUUvfwfDg")
+client = genai.Client(api_key="AIzaSyA6NN8jHHf97tPr16ifD8PgUSS2LcXgXNE")
 
 chat = client.chats.create(model = "gemini-2.5-flash")
 
