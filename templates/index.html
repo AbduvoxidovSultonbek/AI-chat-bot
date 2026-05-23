@@ -1,22 +1,51 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>My AI Chatbot</title>
+    <title>AI Chat</title>
+    <style>
+        body { font-family: Arial; margin: 20px; }
+        #chat { border: 1px solid #ccc; height: 400px; overflow-y: scroll; padding: 10px; }
+        .msg { margin: 5px 0; }
+        .user { color: blue; }
+        .ai { color: green; }
+    </style>
 </head>
 <body>
 
-<h1>Gemini AI Chatbot</h1>
+<h2>My AI Chat</h2>
 
-<form method="POST">
-    <input type="text" name="message" placeholder="Type here..." required>
-    <button type="submit">Send</button>
-</form>
+<div id="chat"></div>
 
-<hr>
+<input id="input" placeholder="Type message..." />
+<button onclick="sendMessage()">Send</button>
 
-{% for sender, message in chat_history %}
-    <p><b>{{ sender }}:</b> {{ message }}</p>
-{% endfor %}
+<script>
+async function sendMessage() {
+    let input = document.getElementById("input");
+    let message = input.value;
+
+    if (!message) return;
+
+    // show user message
+    document.getElementById("chat").innerHTML += 
+        "<div class='msg user'>You: " + message + "</div>";
+
+    input.value = "";
+
+    // send to backend
+    let res = await fetch("/chat", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({message: message})
+    });
+
+    let data = await res.json();
+
+    // show AI reply
+    document.getElementById("chat").innerHTML += 
+        "<div class='msg ai'>AI: " + data.reply + "</div>";
+}
+</script>
 
 </body>
 </html>
