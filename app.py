@@ -11,7 +11,6 @@ client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 app = Flask(__name__)
 
 chat_history = []
-
 @app.route("/", methods=["GET", "POST"])
 def home():
     if request.method == "POST":
@@ -25,10 +24,7 @@ def home():
         chat_history.append(("You", user_message))
         chat_history.append(("AI", response.text))
 
-        return redirect(url_for("home"))
-
     return render_template("index.html", chat_history=chat_history)
-
 if __name__ == "__main__":
     import os
     port = int(os.getenv("PORT", 5000))
